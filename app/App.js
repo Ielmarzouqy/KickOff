@@ -1,28 +1,8 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View } from 'react-native';
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
-
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './screen/HomeScreen';
+import AllMatches from './screen/AllMatches';
+import Background from './screen/Background';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,12 +10,16 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Home"
-          component={HomeScreen}
+          component={Background}
           options={{ title: 'Welcome' }}
-        /> 
-         {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
+        /> */}
+        <Stack.Screen
+          name="AllMatches"
+          component={AllMatches}
+          options={{ title: 'All Matches' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

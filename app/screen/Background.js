@@ -1,19 +1,24 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Button, View, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function HomeScreen() {
+export default function Background({ navigation }) {
+  const showAllMatches = () => {
+    navigation.navigate('AllMatches');
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
-        // Background Linear Gradient
         colors={['#B9A4B9', '#4B1369', '#260E3A']}
         style={styles.background}
       />
+
       <LinearGradient
         colors={['#B9A4B9', '#4B1369', '#260E3A']}
-        style={styles.button}>
-        <Text style={styles.text}>Sign in with Facebook</Text>
+        style={{ flex: 1 }}
+      >
+        <Button title="Press me" onPress={showAllMatches} />
       </LinearGradient>
     </View>
   );
@@ -32,7 +37,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     // height: 300,
-    bottom:0,
+    bottom: 0,
   },
   button: {
     padding: 15,
