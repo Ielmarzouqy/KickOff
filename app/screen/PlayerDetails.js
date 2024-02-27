@@ -7,70 +7,40 @@ export default function PlayerDetails({ route }) {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: player.image_path }} style={styles.playerAvatar} />
-      <Text style={styles.playerName}>
-        name
-        {player.common_name}
-      </Text>
-      <Text style={styles.playerInfo}>
-        position Position: {player.common_name}
-      </Text>
-      <Text style={styles.playerInfo}>
-        Country:
-        {/* {player.country.data.name} */}
-      </Text>
+      <Image testID='player-avatar' source={{ uri: player.image_path }} style={styles.playerAvatar} />
+      <View>
+        <Text style={styles.playerName}>{player.common_name}</Text>
+      {/* {player.position && <Text style={styles.playerInfo}>{player.position.name}</Text>} */}
+      {/* <Text style={styles.playerInfo}>{player.country.data.name}</Text> */}
+      </View>
     </View>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     // backgroundColor: 'orange',
-//   },
-//   background: {
-//     position: 'absolute',
-//     left: 0,
-//     right: 0,
-//     top: 0,
-//     // height: 300,
-//     bottom: 0,
-//   },
-//   button: {
-//     padding: 15,
-//     alignItems: 'center',
-//     borderRadius: 5,
-//   },
-//   text: {
-//     backgroundColor: 'transparent',
-//     fontSize: 15,
-//     color: '#fff',
-//   },
-// });
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f0f0f0',
-    padding: 20,
-  },
-  playerAvatar: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 20,
-  },
-  playerName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  playerInfo: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-});
+    card: {
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 4, 
+      width: '40%',
+      borderRadius: 5,
+      backgroundColor: '#fff', 
+    },
+    playerAvatar: {
+      width: '100%',
+      height: 400, 
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5,
+    },
+    container: {
+      padding: 16,
+    },
+    playerName: {
+      fontWeight: 'bold',
+    },
+    playerInfo: {
+      paddingTop: 5,
+    },
+  });
