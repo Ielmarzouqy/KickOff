@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-
 import {
   View,
   Text,
-  Button,
-  FlatList,
   StyleSheet,
   ScrollView,
   Image,
+  TouchableOpacity,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -23,10 +23,11 @@ const DateDisplay = ({ dateString }) => {
   return <Text>{formattedDate}</Text>;
 };
 
-const AllMatches = ({ navigation }) => {
+const AllMatches = () => {
   console.log('test clg');
 
   const [data, setData] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getData = async () => {
@@ -48,60 +49,66 @@ const AllMatches = ({ navigation }) => {
     getData();
   }, []);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text >
-        <DateDisplay style={{flex: 14, justifyContent: 'center' , alignItems: 'center' }} dateString={item.starting_at} />
-      </Text>
+  const handleMatchPress = (matchId) => {
+    navigation.navigate('TeamScreen', { matchId });
+    Alert.alert('Match ID', `You pressed the button for match ID: ${matchId}`);
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          marginTop: 10,
-        }}
-      >
-
-
-        {item.participants.map((team, index) => (
-          <React.Fragment key={team.id}>
-            {index !== 0 && <Text style={styles.vs}>vs</Text>}
-
-            <View key={team.id} style={{ alignItems: 'center' }}>
-              <Image
-                source={{ uri: team.image_path }}
-                style={{ width: 50, height: 50 }}
-              />
-              <Text>{team.name}</Text>
-            </View>
-          </React.Fragment>
-        ))}
-
-      </View>
-      {/* <Text style={{flex: 1, justifyContent: 'center' , alignItems: 'center' }}>{item.result_info}</Text> */}
-
-    </View>
-  );
-
+    console.log('presss', matchId);
+  };
   return (
-
     <LinearGradient
-        colors={['#B9A4B9', '#4B1369', '#260E3A']}
-        style={{ flex: 1 }}
-      >
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-    
-      <Text>this all match </Text>
-    
-      {data && (
-        <FlatList
-          data={data.data}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-        />
-      )}
-     
-    </View>
+      colors={['#B9A4B9', '#4B1369', '#260E3A']}
+      style={{ flex: 1 }}
+    >
+      <ScrollView>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <Text>this all match </Text>
+
+          {data &&
+            data.data.map((item) => (
+              <View key={item.id} style={styles.card}>
+                <Text>
+                  <DateDisplay dateString={item.starting_at} />
+                </Text>
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    marginTop: 10,
+                  }}
+                >
+                  {item.participants.map((team, index) => (
+                    <React.Fragment key={team.id}>
+                      {index !== 0 && <Text style={styles.vs}>vs</Text>}
+
+                      <View key={team.id} style={{ alignItems: 'center' }}>
+                        <Image
+                          source={{ uri: team.image_path }}
+                          style={{ width: 50, height: 50 }}
+                        />
+                        <Text>{team.name}</Text>
+                      </View>
+                    </React.Fragment>
+                  ))}
+                </View>
+                {/* <TouchableOpacity
+                  title="TeamScreen"
+                  onPress={handleMatchPress(item.id)}
+                >
+                  <Text>see details</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity
+                  onPress={() => handleMatchPress(item.id)}
+                  style={{ alignItems: 'center', marginTop: 10 }}
+                >
+                  <Text>See Details</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+        </View>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -117,16 +124,10 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
   },
-  teamImage: {
-    width: 200,
-    height: 200,
-    marginBottom: 10,
-  },
-  vs:{
+  vs: {
     borderColor: '#ddd',
-    fontSize: 20 
-
-  }
+    fontSize: 20,
+  },
 });
 
 export default AllMatches;
